@@ -20,7 +20,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import services.CrudApi;
 import models.Cliente;
-
+import models.Recibo;
 /**
  *
  * @author vicmn
@@ -30,6 +30,7 @@ public class Recibos extends javax.swing.JFrame {
     private String token = "";
     private CrudApi servicios = new CrudApi();
     private ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+    private ArrayList<Recibo> recibos = new ArrayList<Recibo>();
     /**
      * Creates new form Residentes
      */
@@ -83,12 +84,25 @@ public class Recibos extends javax.swing.JFrame {
         return null;
     }
     
+    public Recibo getReceiptById(String id) { 
+        for (int i=0; i<recibos.size(); i++) {
+            if(id.equals(recibos.get(i).getId())) {
+               return recibos.get(i);
+        }
+        }
+        
+        return null;
+    }
+    
     public void loadTable() {
         //Definimos el token para acceder a la API
         servicios.setToken(token);
          if(clientes.size() > 0) { 
                     clientes.clear();
         }
+         if (recibos.size() > 0) {
+             recibos.clear();
+         }
         //Lista
          String[] columnNames = {"N°", "Contribuyente", "Concepto", "Monto", "Momento"};
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
@@ -108,6 +122,7 @@ public class Recibos extends javax.swing.JFrame {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                     Cliente c = getClientbyId(jsonObject.getString("client_id"));
+                    Recibo r = new Recibo();
                     Object[] row = {
                             jsonObject.getString("id"),
                             c.getNombre(),
@@ -118,6 +133,13 @@ public class Recibos extends javax.swing.JFrame {
 
                     };
                     model.addRow(row);
+                    r.setId(row[0].toString());
+                    r.setCodigo(jsonObject.getString("receipt_code"));
+                    r.setCliente("Nombre: " + c.getNombre() + " - Email: " + c.getEmail());
+                    r.setDescripcion(row[2].toString());
+                    r.setMonto(row[3].toString());
+                    r.setMomento(row[4].toString());
+                    recibos.add(r);
                 }
                 table.setModel(model);
 
@@ -141,7 +163,6 @@ public class Recibos extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         panelNuevo = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -184,14 +205,6 @@ public class Recibos extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Green"));
-        jButton2.setText("Imprimir Recibo");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout panelListaLayout = new javax.swing.GroupLayout(panelLista);
         panelLista.setLayout(panelListaLayout);
         panelListaLayout.setHorizontalGroup(
@@ -200,11 +213,8 @@ public class Recibos extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(panelListaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 842, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(panelListaLayout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton2)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton1))
+                .addContainerGap(182, Short.MAX_VALUE))
         );
         panelListaLayout.setVerticalGroup(
             panelListaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -212,10 +222,8 @@ public class Recibos extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelListaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addContainerGap(145, Short.MAX_VALUE))
+                .addComponent(jButton1)
+                .addContainerGap(157, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Lista", panelLista);
@@ -286,7 +294,7 @@ public class Recibos extends javax.swing.JFrame {
                 .addGroup(panelNuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 319, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 331, Short.MAX_VALUE)
                 .addComponent(jButton3)
                 .addGap(60, 60, 60))
         );
@@ -299,78 +307,10 @@ public class Recibos extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        int fila = table.getSelectedRow();
-        String idCliente = table.getValueAt(fila, 0).toString();
-        String nombreCliente = table.getValueAt(fila,2).toString();
-        int decision = JOptionPane.showConfirmDialog(rootPane, "¿Seguro que desea eliminar el socio N° " + idCliente + " - Nombre: "+nombreCliente+"? \n ESTA ACCIÓN ES IRREVERSIBLE", "PRECAUCIÓN", JOptionPane.YES_NO_CANCEL_OPTION);
-        switch(decision){
-                case 0: 
-            {
-                try {
-                    servicios.deleteClient(idCliente);
-                    JOptionPane.showMessageDialog(null, "Socio eliminado");
-                    loadTable();
-
-                } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(null, "Hubo un error al eliminar al socio o cliente");
-                    Logger.getLogger(Recibos.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-                    break;
-
-                case 1: 
-                    JOptionPane.showMessageDialog(null, "No se eliminará al socio");
-                    break;
-                default:
-                    JOptionPane.showMessageDialog(null, "Operación cancelada");
-                    break;
-        }
-    }//GEN-LAST:event_jButton2ActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-         int fila = table.getSelectedRow();
-         if(fila < 0) {
-                      JOptionPane.showMessageDialog(null, "No se está seleccionando ningún registro a modificar");
-         } else {
-                String idCliente = table.getValueAt(fila, 0).toString();
-                String ciCliente = table.getValueAt(fila, 1).toString();
-                String nombreCliente = table.getValueAt(fila,2).toString();
-                String telefono = table.getValueAt(fila, 3).toString();
-                String email = table.getValueAt(fila, 4).toString();
-                
-                int decision = JOptionPane.showConfirmDialog(rootPane, "¿Seguro que desea MODIFICAR el cliente N° " + idCliente + " - Nombre: "+nombreCliente+"? \n ESTA ACCIÓN ES IRREVERSIBLE \n"
-                        + "Nuevos datos: \n"
-                        + "ID: "+idCliente+"\n"
-                        + "Nombre: "+nombreCliente+"\n"
-                        + "CI: "+ciCliente+"\n"
-                        + "E-Mail: "+email+"\n"
-                        , "PRECAUCIÓN", JOptionPane.YES_NO_CANCEL_OPTION);
-                switch(decision){
-                        case 0: 
-                    {
-                        try {
-                            servicios.updateClient(idCliente, nombreCliente, ciCliente, telefono, email);
-                            JOptionPane.showMessageDialog(null, "Residente modificado");
-                            loadTable();
-
-                        } catch (IOException ex) {
-                            JOptionPane.showMessageDialog(null, "Hubo un error al modificar el residente");
-                            Logger.getLogger(Recibos.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                            break;
-
-                        case 1: 
-                            JOptionPane.showMessageDialog(null, "No se modificará al residente");
-                            break;
-                        default:
-                            JOptionPane.showMessageDialog(null, "Operación cancelada");
-                            break;
-                }
-         }
+        String id = table.getValueAt(table.getSelectedRow(), 0).toString();
+        Recibo r = getReceiptById(id);
+        DetallesRecibo detalles = DetallesRecibo.getInstancia(r);
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -502,7 +442,6 @@ public class Recibos extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
