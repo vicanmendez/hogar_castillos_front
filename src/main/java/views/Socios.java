@@ -132,7 +132,7 @@ public class Socios extends javax.swing.JFrame {
         });
 
         jButton2.setBackground(new java.awt.Color(255, 102, 102));
-        jButton2.setText("Eliminar residente");
+        jButton2.setText("Eliminar socio/cliente");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -300,11 +300,11 @@ public class Socios extends javax.swing.JFrame {
                     {
                         try {
                             servicios.updateClient(idCliente, nombreCliente, ciCliente, telefono, email);
-                            JOptionPane.showMessageDialog(null, "Residente modificado");
+                            JOptionPane.showMessageDialog(null, "Registro modificado");
                             loadTable();
 
                         } catch (IOException ex) {
-                            JOptionPane.showMessageDialog(null, "Hubo un error al modificar el residente");
+                            JOptionPane.showMessageDialog(null, "Hubo un error al modificar los datos del socio");
                             Logger.getLogger(Socios.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }

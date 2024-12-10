@@ -26,7 +26,6 @@ import org.json.JSONObject;
      private static String token = "";
 
     //     private static String base_url = "http://localhost/residencial/";
-
      
      public void setToken(String token) {
          this.token = token;
@@ -299,6 +298,47 @@ import org.json.JSONObject;
                 System.out.println("Failed to create receipt. Response Code: " + responseCode);
             }
         }
+        
+        public static void createReceipt(String clientId, String amount, String concept) throws IOException {
+            // Configuración de la conexión
+            URL url = new URL(base_url + "/wp-json/residencial/v1/receipts");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Authorization", "Bearer " + token);
+            connection.setRequestProperty("Content-Type", "application/json");
+
+            // Generar el cuerpo JSON
+            String jsonInputString = String.format(
+                "{ \"client_id\": \"%s\",\"amount\": \"%s\", \"concept\": \"%s\" }",
+                clientId,
+                amount,
+                concept
+            );
+
+            // Enviar datos al servidor
+            connection.setDoOutput(true);
+            try (OutputStream os = connection.getOutputStream()) {
+                byte[] input = jsonInputString.getBytes("utf-8");
+                os.write(input, 0, input.length);
+            }
+
+            // Leer respuesta del servidor
+            int responseCode = connection.getResponseCode();
+            System.out.println("POST Response Code: " + responseCode);
+            if (responseCode == HttpURLConnection.HTTP_CREATED) { // HTTP 201
+                try (BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"))) {
+                    StringBuilder response = new StringBuilder();
+                    String inputLine;
+                    while ((inputLine = in.readLine()) != null) {
+                        response.append(inputLine);
+                    }
+                    System.out.println("Receipt Created: " + response.toString());
+                }
+            } else {
+                System.out.println("Failed to create receipt. Response Code: " + responseCode);
+            }
+        }
+
 
         // Actualizar recibo
         public static void updateReceipt(String receiptId,String clientId, String residentId, String amount, String concept) throws IOException {
