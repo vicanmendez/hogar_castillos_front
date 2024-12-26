@@ -4,6 +4,8 @@
  */
 package views;
 
+import javax.swing.SwingUtilities;
+
 /**
  *
  * @author vicmn
@@ -14,12 +16,39 @@ public class Main extends javax.swing.JFrame {
     /**
      * Creates new form Main
      */
-    public Main() {
-        
+   public Main() {
         initComponents();
-        this.setBounds(0, 0, 900, 760);
-      
-    }
+        this.setBounds(0, 0, 706, 750);
+        this.setLocationRelativeTo(null); // Centra la ventana en la pantalla
+
+        // Cambiar el color de fondo de los botones
+        java.awt.Color modernBlue = new java.awt.Color(30, 144, 255); // Azul más oscuro y moderno
+        jButton1.setBackground(modernBlue);
+        jButton2.setBackground(modernBlue);
+        jButton3.setBackground(modernBlue);
+        jButton1.setForeground(java.awt.Color.WHITE); // Texto en blanco para mejor contraste
+        jButton2.setForeground(java.awt.Color.WHITE);
+        jButton3.setForeground(java.awt.Color.WHITE);
+
+        // Centrando el panel y la imagen
+        panelMenu.setBounds(this.getBounds());
+        java.awt.GridBagConstraints gbc = new java.awt.GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new java.awt.Insets(10, 10, 10, 10); // Espaciado entre componentes
+        panelMenu.add(jLabel2, gbc);
+
+        gbc.gridy = 1; // Posición debajo de la imagen
+        javax.swing.JPanel buttonPanel = new javax.swing.JPanel();
+        buttonPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 15, 0)); // Espaciado entre botones
+        buttonPanel.setOpaque(false); // Fondo transparente para no sobrescribir el diseño
+        buttonPanel.add(jButton1);
+        buttonPanel.add(jButton2);
+        buttonPanel.add(jButton3);
+        panelMenu.add(buttonPanel, gbc);
+}
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -29,6 +58,7 @@ public class Main extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel1 = new javax.swing.JPanel();
         panelMenu = new javax.swing.JPanel();
@@ -50,8 +80,9 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        panelMenu.setBackground(new java.awt.Color(228, 226, 226));
+        panelMenu.setBackground(getBackground());
         panelMenu.setPreferredSize(new java.awt.Dimension(900, 600));
+        panelMenu.setLayout(new java.awt.GridBagLayout());
 
         jButton1.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Blue"));
         jButton1.setText("Residentes");
@@ -60,6 +91,12 @@ public class Main extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(33, 217, 27, 0);
+        panelMenu.add(jButton1, gridBagConstraints);
 
         jButton2.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Blue"));
         jButton2.setText("Socios");
@@ -68,6 +105,12 @@ public class Main extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(33, 6, 27, 0);
+        panelMenu.add(jButton2, gridBagConstraints);
 
         jButton3.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Blue"));
         jButton3.setText("Recibos");
@@ -77,40 +120,25 @@ public class Main extends javax.swing.JFrame {
                 jButton3ActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(33, 6, 27, 0);
+        panelMenu.add(jButton3, gridBagConstraints);
 
         jLabel2.setBackground(new java.awt.Color(153, 153, 255));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\46352621\\Documents\\NetBeansProjects\\hogarcastillos_front-master\\src\\main\\java\\resources\\menu.png")); // NOI18N
-
-        javax.swing.GroupLayout panelMenuLayout = new javax.swing.GroupLayout(panelMenu);
-        panelMenu.setLayout(panelMenuLayout);
-        panelMenuLayout.setHorizontalGroup(
-            panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelMenuLayout.createSequentialGroup()
-                .addGroup(panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelMenuLayout.createSequentialGroup()
-                        .addGap(217, 217, 217)
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3))
-                    .addGroup(panelMenuLayout.createSequentialGroup()
-                        .addGap(77, 77, 77)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 546, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        panelMenuLayout.setVerticalGroup(
-            panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelMenuLayout.createSequentialGroup()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 591, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
-                .addGroup(panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton1))
-                .addContainerGap(27, Short.MAX_VALUE))
-        );
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.ipadx = -54;
+        gridBagConstraints.ipady = -9;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 77, 0, 83);
+        panelMenu.add(jLabel2, gridBagConstraints);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
