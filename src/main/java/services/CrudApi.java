@@ -25,7 +25,10 @@ import org.json.JSONObject;
      //Atributos generales
      private static String token = "";
 
-    //     private static String base_url = "http://localhost/residencial/";
+        //Cambiar por la URL raiz de los endpoints
+         private static String base_url = "http://localhost/residencial/";
+
+
      
      public void setToken(String token) {
          this.token = token;

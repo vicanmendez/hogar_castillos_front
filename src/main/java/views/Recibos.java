@@ -520,12 +520,12 @@ public class Recibos extends javax.swing.JFrame {
                  loadTable();
 
                } catch (Exception e ) {
-                   JOptionPane.showMessageDialog(null, "Hubo un error al ingresar al socio o cliente. \n Código del error: " + e.getMessage());
+                   JOptionPane.showMessageDialog(null, "Hubo un error al ingresar el recibo. \n Código del error: " + e.getMessage());
                }
 
 
            } else {
-               JOptionPane.showMessageDialog(null, "No se ingresará al cliente / socio");
+               JOptionPane.showMessageDialog(null, "No se ingresará el recibo");
            }
 
             

@@ -104,7 +104,7 @@
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="d6" green="9f" id="Actions.Blue" palette="3" red="38" type="palette"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Socios"/>
+                <Property name="text" type="java.lang.String" value="Contribuyentes"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>

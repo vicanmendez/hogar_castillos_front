@@ -18,7 +18,7 @@ public class Main extends javax.swing.JFrame {
      */
    public Main() {
         initComponents();
-        this.setBounds(0, 0, 706, 750);
+        this.setBounds(0, 0, 720, 751);
         this.setLocationRelativeTo(null); // Centra la ventana en la pantalla
 
         // Cambiar el color de fondo de los botones
@@ -99,7 +99,7 @@ public class Main extends javax.swing.JFrame {
         panelMenu.add(jButton1, gridBagConstraints);
 
         jButton2.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Blue"));
-        jButton2.setText("Socios");
+        jButton2.setText("Contribuyentes");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);

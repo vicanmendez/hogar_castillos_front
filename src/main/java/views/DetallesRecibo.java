@@ -34,6 +34,15 @@ public class DetallesRecibo extends javax.swing.JFrame {
     
     public void setRecibo(Recibo r) {
         this.recibo = r;
+        actualizarDetalles();
+    }
+    
+    private void actualizarDetalles() {
+        lblCodigo.setText(recibo.getCodigo());
+        lblCliente.setText(recibo.getCliente());
+        lblMomento.setText(recibo.getMomento());
+        lblMonto.setText(recibo.getMonto());
+        lblDescripcion.setText(recibo.getDescripcion());
     }
 
     /**
@@ -151,7 +160,8 @@ public class DetallesRecibo extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        dispose();
+        this.setVisible(false);
+        this.instancia = null;
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -261,6 +271,9 @@ public class DetallesRecibo extends javax.swing.JFrame {
             instancia.setVisible(true);
             return instancia;
         }
+        instancia.setRecibo(r);
+        instancia.printData();
+        instancia.setVisible(true);
         return instancia;
     }
 
